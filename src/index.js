@@ -8,10 +8,20 @@ import {
  } from 'firebase/firestore'
  import {
     getAuth,
-    createUserWithEmailAndPassword
+    createUserWithEmailAndPassword,
+    signOut, signInWithEmailAndPassword
  } from 'firebase/auth'
 
 //  const firebaseConfig = //your firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyA_toIKwWTplKQCWGce5f7TiqwUfgBmGls",
+    authDomain: "fir-9-rush-2452a.firebaseapp.com",
+    projectId: "fir-9-rush-2452a",
+    storageBucket: "fir-9-rush-2452a.appspot.com",
+    messagingSenderId: "1052320398643",
+    appId: "1:1052320398643:web:fab76dc1edf5e860185246"
+  };
+
   // init firebase
 initializeApp(firebaseConfig)
 
@@ -103,3 +113,33 @@ signupForm.addEventListener('submit', (e) => {
             console.log(err.message)
         })
 })
+
+// logging in and out
+const logoutButton = document.querySelector('.logout')
+logoutButton.addEventListener('click', () => {
+    signOut(auth)
+        .then(() => {
+            console.log('user has logged out')
+        })
+        .catch((err) => {
+            console.log(err.message)
+        })
+})
+
+const loginForm = document.querySelector('.login')
+loginForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+
+    const email = loginForm.email.value
+    const password = loginForm.password.value
+
+    signInWithEmailAndPassword(auth, email, password)
+     .then((cred) => {
+        console.log('user logged in:', cred.user)
+     })
+     .catch((err) => {
+        console.log(err.message)
+     })
+  
+})
+
